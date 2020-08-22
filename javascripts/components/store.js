@@ -1,4 +1,4 @@
-import { addToCart } from "./cart.js";
+import { addToCart } from "./cart/cart.js";
 
 const makeStore = (array, titles = false) => {
   // Clear the DOM each time this function is run
