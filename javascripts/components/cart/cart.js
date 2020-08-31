@@ -1,4 +1,8 @@
-import { setCart, getCart, emptyCart } from "./../helpers/data/cartData.js";
+import { setCart } from "../../helpers/data/cartData.js";
+import { cartTotal } from "./cartTotal.js";
+import { getCart } from "./../../helpers/data/cartData.js";
+import { getCartDom } from "./cartDOM.js";
+import { showCartItems } from "./cartModal.js"
 
 const makeCart = () => {
   $("#cart").html(` 
@@ -47,7 +51,7 @@ const makeCart = () => {
             <div>$${cartTotal().toFixed(2)}</div>
           </div>
             <button class="btn btn-danger" data-toggle="modal" data-target="#buy-modal" id="checkout">Checkout</button>
-        </div>`);
+        </div>` + getCartDom());
 
   //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
   $("#charge-it").click(() => {
@@ -72,51 +76,4 @@ const addToCart = (array, index) => {
   });
 };
 
-const showCartItems = () => {
-  let obj = {};
-
-  getCart().forEach((item) => {
-    if (item.title in obj) {
-      obj[item.title].quantity++;
-      obj[item.title].price += item.price;
-    } else {
-      obj[item.title] = { quantity: 1, price: item.price };
-    }
-  });
-
-  Object.keys(obj).map((title) => {
-    $("tbody").append(
-      `<tr>
-          <td>${title}</td>
-          <td>${obj[title].quantity}</td>
-          <td>${obj[title].price.toFixed(2)}</td>
-        </tr>`
-    );
-  });
-};
-
-const cartTotal = () => {
-  const myCart = getCart();
-  const total = myCart.reduce((a, cartItem) => {
-    return a + cartItem.price;
-  }, 0);
-
-  return total;
-};
-
-const chargeIt = (ccNum) => {
-  if (ccNum === "") {
-    $("#error-message").html("Please enter a credit card number");
-  } else {
-    emptyCart();
-    $(".modal-backdrop").remove();
-    $("#buy-modal").modal("hide");
-
-    $("#cart").html(
-      `<h2 style="margin-top: 100px;">Thank you for your order.</h2>
-        <p>Your credit card number was ${ccNum} has been charged.</p>`
-    );
-  }
-};
-
-export { makeCart, addToCart };
+export { makeCart, addToCart, getCart };
