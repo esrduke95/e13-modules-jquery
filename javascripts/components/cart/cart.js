@@ -1,6 +1,8 @@
-import { setCart, emptyCart } from "../../helpers/data/cartData.js";
+import { setCart } from "../../helpers/data/cartData.js";
 import { cartTotal } from "./cartTotal.js";
 import { getCart } from "./../../helpers/data/cartData.js";
+import { getCartDom } from "./cartDOM.js";
+import { showCartItems } from "./cartModal.js"
 
 const makeCart = () => {
   $("#cart").html(` 
@@ -49,7 +51,7 @@ const makeCart = () => {
             <div>$${cartTotal().toFixed(2)}</div>
           </div>
             <button class="btn btn-danger" data-toggle="modal" data-target="#buy-modal" id="checkout">Checkout</button>
-        </div>`);
+        </div>` + getCartDom());
 
   //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
   $("#charge-it").click(() => {
